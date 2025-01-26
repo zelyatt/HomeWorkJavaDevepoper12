@@ -6,33 +6,34 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
+import javax.management.Query;
+import java.util.List;
+
 public class ClientDao {
     private final SessionFactory sessionFactory = HibernateConfig.getInstance().getSessionFactory();
 
-    public void createClient(String name){
+    public void createClient(Client client){
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
-            Client client = new Client();
-            client.setName(name);
-            session.persist(client);
-            transaction.commit();
+            session.save(client);
         }
     }
-    public Client getClient(String name){
+    public Client getClient(Long id){
         try(Session session = sessionFactory.openSession()){
-            return session.get(Client.class, name);
+            return session.get(Client.class, id);
         }
     }
+    public List<Client> getAllClients(){
+        try(Session session = sessionFactory.openSession()) {
+            return session.createQuery("SELECT c FROM Client c", Client.class).getResultList();
 
-    public void updateClient(Long id, String newName){
+        }
+    }
+    public void updateClient(Client client){
         try(Session session = sessionFactory.openSession()){
             Transaction transaction = session.beginTransaction();
-            Client client = session.get(Client.class, id);
-            if (client != null){
-                client.setName(newName);
-                session.persist(client);
-                transaction.commit();
-            }
+            session.update(client);
+            transaction.commit();
         }
     }
     public void deleteClient(Long id){

@@ -7,46 +7,45 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
+import java.util.List;
+
 public class PlanetDao {
 
     private final SessionFactory sessionFactory = HibernateConfig.getInstance().getSessionFactory();
 
-    public void createPlanet(String name) {
+    public void createPlanet(Planet planet) {
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
-            Planet planet = new Planet();
-            planet.setName(name);
-            session.persist(planet);
-            transaction.commit();
+            session.save(planet);
         }
     }
 
-    public Planet getPlanet(Long id) {
+    public Planet getPlanet(String id) {
         try (Session session = sessionFactory.openSession()) {
             return session.get(Planet.class, id);
         }
     }
 
-    public void updatePlanet(Long id, String newName) {
+    public void updatePlanet(Planet planet) {
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
-            Planet planet = session.get(Planet.class, id);
-            if (planet != null) {
-                planet.setName(newName);
-                session.persist(planet);
-                transaction.commit();
-            }
+            session.update(planet);
+            transaction.commit();
+        }
+    }
+    public List<Planet> getAllPlanets (){
+        try(Session session = sessionFactory.openSession()){
+            return session.createQuery("SELECT p FROM Planet p", Planet.class).getResultList();
+
         }
     }
 
-    public void deletePlanet(Long id) {
+
+    public void deletePlanet(String id) {
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
-            Planet planet = session.get(Planet.class, id);
-            if (planet != null) {
-                session.delete(planet);
-                transaction.commit();
-            }
+            session.delete(getPlanet(id));
+            transaction.commit();
         }
     }
 }

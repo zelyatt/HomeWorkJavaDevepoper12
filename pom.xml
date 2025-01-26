@@ -104,7 +104,8 @@
         <artifactId>hibernate-core</artifactId>
         <version>6.6.1.Final</version>
     </dependency>
-    <dependency>
+
+        <dependency>
         <groupId>jakarta.annotation</groupId>
         <artifactId>jakarta.annotation-api</artifactId>
         <version>3.0.0</version>

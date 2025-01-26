@@ -1,4 +1,3 @@
-
 INSERT INTO client (name) VALUES ('Alice'), ('Bob'), ('Charlie'), ('David'), ('Eva'),
                                  ('Frank'), ('Grace'), ('Hank'), ('Ivy'), ('Jack');
 

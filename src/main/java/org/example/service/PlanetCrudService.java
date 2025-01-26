@@ -1,33 +1,38 @@
 package org.example.service;
 
 import jakarta.persistence.EntityManager;
+import org.example.DAO.PlanetDao;
 import org.example.model.Planet;
 
 import java.util.List;
 
 public class PlanetCrudService {
-    private final EntityManager em;
+    private final PlanetDao planetDao;
 
-    public PlanetCrudService(EntityManager em) {
-        this.em = em;
+    public PlanetCrudService(PlanetDao planetDao) {
+        this.planetDao = planetDao;
+    }
+
+    public void update (Planet planet) {
+        planetDao.updatePlanet(planet);
     }
 
     public void save(Planet planet) {
-        em.persist(planet);
+        planetDao.createPlanet(planet);
     }
 
     public Planet findById(String id) {
-        return em.find(Planet.class, id);
+        return planetDao.getPlanet(id);
     }
 
     public List<Planet> findAll() {
-        return em.createQuery("SELECT p FROM Planet p", Planet.class).getResultList();
+        return planetDao.getAllPlanets();
     }
 
     public void delete(String id) {
         Planet planet = findById(id);
         if (planet != null) {
-            em.remove(planet);
+            planetDao.deletePlanet(id);
         }
     }
 }

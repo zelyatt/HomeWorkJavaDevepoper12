@@ -1,33 +1,40 @@
 package org.example.service;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
+import org.example.DAO.ClientDao;
 import org.example.model.Client;
+import org.hibernate.Session;
 
 import java.util.List;
 
 public class ClientCrudService {
-    private final EntityManager em;
+    private final ClientDao clientDao;
 
-    public ClientCrudService(EntityManager em) {
-        this.em = em;
+    public ClientCrudService(ClientDao clientDao) {
+        this.clientDao = clientDao;
+
     }
 
     public void save(Client client) {
-        em.persist(client);
+        clientDao.createClient(client);
     }
 
     public Client findById(Long id) {
-        return em.find(Client.class, id);
+        return clientDao.getClient(id);
     }
 
+    public void update(Client client) {
+        clientDao.updateClient(client);
+    }
     public List<Client> findAll() {
-        return em.createQuery("SELECT c FROM Client c", Client.class).getResultList();
+        return clientDao.getAllClients();
     }
 
     public void delete(Long id) {
         Client client = findById(id);
         if (client != null) {
-            em.remove(client);
+            clientDao.deleteClient(id);
         }
     }
 }
