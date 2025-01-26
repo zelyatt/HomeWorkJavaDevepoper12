@@ -6,7 +6,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-import javax.management.Query;
 import java.util.List;
 
 public class ClientDao {
@@ -15,7 +14,8 @@ public class ClientDao {
     public void createClient(Client client){
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
-            session.save(client);
+            session.persist(client);
+            transaction.commit();
         }
     }
     public Client getClient(Long id){
@@ -32,7 +32,7 @@ public class ClientDao {
     public void updateClient(Client client){
         try(Session session = sessionFactory.openSession()){
             Transaction transaction = session.beginTransaction();
-            session.update(client);
+            session.persist(client);
             transaction.commit();
         }
     }
@@ -41,7 +41,7 @@ public class ClientDao {
             Transaction transaction = session.beginTransaction();
             Client client = session.get(Client.class, id);
             if (client != null){
-                session.delete(client);
+                session.remove(client);
                 transaction.commit();
             }
         }

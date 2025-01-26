@@ -16,7 +16,8 @@ public class PlanetDao {
     public void createPlanet(Planet planet) {
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
-            session.save(planet);
+            session.persist(planet);
+            transaction.commit();
         }
     }
 
@@ -29,7 +30,7 @@ public class PlanetDao {
     public void updatePlanet(Planet planet) {
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
-            session.update(planet);
+            session.persist(planet);
             transaction.commit();
         }
     }
@@ -44,7 +45,7 @@ public class PlanetDao {
     public void deletePlanet(String id) {
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
-            session.delete(getPlanet(id));
+            session.remove(getPlanet(id));
             transaction.commit();
         }
     }

@@ -1,10 +1,8 @@
 package org.example.service;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.Query;
+
 import org.example.DAO.ClientDao;
 import org.example.model.Client;
-import org.hibernate.Session;
 
 import java.util.List;
 
